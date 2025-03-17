@@ -1,19 +1,16 @@
 package main
 
 import (
-	"fmt"
-	"linechat/httpclient"
+	"linechat/websocket"
 	"log"
 )
 
 func main() {
-	client := httpclient.NewClient()
+	// Start WebSocket Server
+	go websocket.StartServer()
 
-	// Example GET request
-	response, err := client.Get("/")
-	if err != nil {
-		log.Println("GET Error:", err)
-		return
-	}
-	fmt.Println("GET Response:", string(response))
+	// Start your LINE bot logic here
+	log.Println("LINE chatbot running...")
+
+	select {} // Keep the main function alive
 }
