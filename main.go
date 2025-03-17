@@ -2,40 +2,18 @@ package main
 
 import (
 	"fmt"
-	"github.com/joho/godotenv"
-	"io"
+	"linechat/httpclient"
 	"log"
-	"net/http"
-	"os"
 )
 
 func main() {
-	// Load .env file
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	client := httpclient.NewClient()
 
-	apiUrl := os.Getenv("API_URL")
-
-	resp, err := http.Get(apiUrl)
+	// Example GET request
+	response, err := client.Get("/")
 	if err != nil {
-		fmt.Println("Request error:", err)
+		log.Println("GET Error:", err)
 		return
 	}
-	defer resp.Body.Close()
-
-	// Check HTTP status code
-	if resp.StatusCode != http.StatusOK {
-		fmt.Println("Error: Received status code", resp.StatusCode)
-		return
-	}
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println("Error reading response body:", err)
-		return
-	}
-
-	fmt.Println("Response:", string(body))
+	fmt.Println("GET Response:", string(response))
 }
